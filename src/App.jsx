@@ -1,35 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
 
 export const App = () => {
+  const [todoText, setTodoText] = useState("");
+  const [incompleteTodos, setIncompleteTodos] = useState(["aaa", "bbb"]);
+  const [completeTodos, setCompleteTodos] = useState(["ccc", "ddd"]);
+
+  const onChangeTodoText = (event) => setTodoText(event.target.value);
+
+  const onClickAdd = () => {
+    if (todoText === "") return;
+    const newTodos = [...incompleteTodos, todoText];
+    setIncompleteTodos(newTodos);
+    setTodoText("");
+  };
   return (
     <>
       <div className="input-area">
-        <input placeholder="TODOを入力" />
-        <button>追加</button>
+        <input
+          placeholder="TODOを入力"
+          value={todoText}
+          onChange={onChangeTodoText}
+        />
+        <button onClick={onClickAdd}>追加</button>
       </div>
       <div className="incomplete-area">
         <p className="title">未完了のTODO</p>
         <ul>
-          <div className="list-row">
-            <li>aaa</li>
-            <button>追加</button>
-            <button>削除</button>
-          </div>
-          <div className="list-row">
-            <li>bbb</li>
-            <button>追加</button>
-            <button>削除</button>
-          </div>
+          {incompleteTodos.map((todo) => {
+            return (
+              <div key="todo" className="list-row">
+                <li>{todo}</li>
+                <button>追加</button>
+                <button>削除</button>
+              </div>
+            );
+          })}
         </ul>
       </div>
       <div className="complete-area">
         <p className="title">完了のTODO</p>
         <ul>
-          <div className="list-row">
-            <li>ccc</li>
-            <button>戻す</button>
-          </div>
+          {completeTodos.map((todo) => {
+            return (
+              <div key="todo" className="list-row">
+                <li>{todo}</li>
+                <button>戻す</button>
+              </div>
+            );
+          })}
         </ul>
       </div>
     </>
