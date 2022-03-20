@@ -40,13 +40,19 @@ export const App = () => {
     setCompleteTodos(newCompleteTodos);
   };
 
+  const limitFlag = incompleteTodos.length >= 5;
+
   return (
     <>
       <InputTodo
         todoText={todoText}
         onChange={onChangeTodoText}
         onClick={onClickAdd}
+        disabled={limitFlag}
       />
+      {limitFlag && (
+        <p style={{ color: "red" }}>登録できるTodoは5個までです！</p>
+      )}
       <IncompleteTodos
         incompleteTodos={incompleteTodos}
         onClickComplete={onClickComplete}
